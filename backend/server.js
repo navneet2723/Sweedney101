@@ -7,7 +7,9 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors()); // Use cors middleware
+app.use(cors({
+    origin:"https://sweedney101-i4bg.vercel.app" 
+})); // Use cors middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend'))); // Serve static files from frontend folder
 
