@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors'); // Import cors
+const cors = require('cors');
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
 const dotenv = require('dotenv').config();
 const path = require('path');
@@ -8,15 +8,17 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin:"https://sweedney101-i4bg.vercel.app" 
-})); // Use cors middleware
+    origin: "https://sweedney101-i4bg.vercel.app",
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization"
+}));
+
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../frontend'))); // Serve static files from frontend folder
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 const MODEL_NAME = "gemini-pro";
 const API_KEY = process.env.API_KEY;
 
-// Define a set of psychological questions to gather user information
 const psychologicalQuestions = [
     "Can you describe what led to your feelings today?",
     "How would you rate your current mood on a scale from 1 to 10?",
@@ -45,8 +47,7 @@ async function runChat(userInput) {
         {
             category: HarmCategory.HARM_CATEGORY_HARASSMENT,
             threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        // ... other safety settings
+        }
     ];
 
     const chat = model.startChat({
@@ -67,21 +68,19 @@ async function runChat(userInput) {
     const result = await chat.sendMessage(userInput);
     const response = result.response;
 
-    // Add psychological probing questions
     const randomQuestion = psychologicalQuestions[Math.floor(Math.random() * psychologicalQuestions.length)];
     const enhancedResponse = `${response.text()}\n\nBy the way, I'd love to know more about your situation. ${randomQuestion}`;
 
-    return enhancedResponse; // Always provide a probing question after the initial response
+    return enhancedResponse;
 }
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html')); // Serve the index.html file
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 app.post('/chat', async (req, res) => {
     try {
         const userInput = req.body?.userInput;
-        console.log('incoming /chat req', userInput);
         if (!userInput) {
             return res.status(400).json({ error: 'Invalid request body' });
         }
@@ -89,7 +88,6 @@ app.post('/chat', async (req, res) => {
         const response = await runChat(userInput);
         res.json({ response });
     } catch (error) {
-        console.error('Error in chat endpoint:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
