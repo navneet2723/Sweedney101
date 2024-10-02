@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS file -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Optional favicon link -->
+</head>
+<body>
+    <div id="chat-container">
+        <h1>Mental Health Booster</h1>
+        <div id="chat-history" style="overflow-y: auto; height: 400px;"></div> <!-- Added height and overflow -->
+        <form id="chat-form"> <!-- Call sendMessage on form submission -->
+            <input type="text" id="user-input" placeholder="Enter your message" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <div id="loader" style="display:none;"> <!-- Hide loader initially -->
+        <img src="loader.gif" width="150px" alt="Loading...">
+    </div>
+    <script src="app.js"></script> <!-- Link to JS file -->
+</body>
+</html>
