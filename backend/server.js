@@ -13,6 +13,8 @@ app.use(cors({
     allowedHeaders: "Content-Type,Authorization"
 }));
 
+app.options('*', cors());
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
