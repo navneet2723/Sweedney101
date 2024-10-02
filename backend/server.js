@@ -10,7 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(cors({
     origin: 'https://sweedney101-i4bg.vercel.app'
 }));
-app.options('*', cors());
+app.options('/chat', cors());
+  
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
