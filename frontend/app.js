@@ -12,7 +12,7 @@ async function sendMessage() {
     loader.style.display = 'block'; // Show loader
 
     try {
-        const response = await fetch('https://sweedney101.vercel.app/chat', {
+        const response = await fetch('https://sweedney101.onrender.com/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
